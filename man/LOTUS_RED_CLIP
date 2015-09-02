@@ -1,0 +1,47 @@
+####################################### lotus_red_clip ############################################
+
+Usage:	loclip continuum_file 
+	       input_file      
+	       bin_size_px
+	       bg_percentile
+	       clip_sigma
+	       thresh_sigma
+	       scan_window_size_px
+	       scan_window_nsigma
+	       min_spectrum_width_px
+               force_bottom_px
+               force_top_px
+	       output_file
+Synopsis:
+
+An automatic clipping routine to extract the active region from a long-slit exposure.
+
+Description:
+
+The data is first binned along the dispersion axis (defined as x) with a bin size of [bin_size]. 
+An initial estimate of the mean/sd is found using the [bg_percentile]th lowest
+valued pixels. This mean/sd is then used in an iterative sigma clip with sigma [clip_sigma]
+and a mean background level obtained. The mean of this background level is then compared with 
+the mean frame level, and a warning is given if the two are found to be of a similar magnitude, 
+i.e. 
+
+ bg_mean + bg_sd*[thresh_sigma] >= frame_mean
+
+Edges are found in the data by progressing through each side of the spatial axis and finding the
+pixels with the maximum/minimum derivatives. These peaks are then further tested by ascertaining 
+if a window of size [scan_window_size_px] consecutive pixels all have values lying above 
+[scan_window_trig_nsigma] * the background level standard deviation. This is done for every bin 
+along the dispersion axis.
+
+Note that if the spectrum lies on the edge of the frame, this routine will return an incorrect
+value. In this case, it is possible to explicitly override an edge value by specifying a value 
+for [force_bottom_px] and/or [force_top_px]. These parameters should be set to -1 if they are not 
+to be used.
+
+Finally, the automatically deduced width is checked to be greater than [min_spectrum_width].
+
+Example: 
+
+loclip continuum.fits target.fits 20 0.1 1.0 3.0 100 1 100 target_tr.fits
+
+###################################################################################################

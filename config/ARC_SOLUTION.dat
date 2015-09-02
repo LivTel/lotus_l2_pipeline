@@ -1,0 +1,11 @@
+#### ARC_SOLUTIONS.dat ####
+
+# List of pixel channel to wavelength dispersion solution coefficients and corresponding chi-squared found using the sparcfit program.
+
+# Run Datetime:		UNKNOWN
+
+# Arc Filename:		UNKNOWN
+# Polynomial Order:	2
+
+1	1.67477e+03	4.88496e+00	-2.10062e-04	1
+-1

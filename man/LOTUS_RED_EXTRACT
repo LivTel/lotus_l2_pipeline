@@ -1,0 +1,39 @@
+####################################### lotus_red_extract #########################################
+
+Usage:  loextract input_file            
+                  method
+                  ss_method
+                  target_half_aperture_px 
+                  sky_window_half_aperture_px  
+                  output_file               
+
+Synopsis:
+
+Extracts flux from a standard aperture.
+
+Description:
+
+Uses the [LOFIND_OUTPUTF_PEAKS_FILE] peaks file to complete an aperture extraction of flux. The 
+size of the aperture is determined by defining [target_half_aperture_num_pix], the number of pixels 
+to be included in the summation either side of the centroid e.g. a [target_half_aperture_num_pix] 
+of 2 would result in a total of 5 pixels in extraction; one for centroid and two either side.
+
+The [method] parameter is used to specify how the flux should be extracted. Current options are:
+
+1.      simple (partial pixel aperture)
+ 
+In addition, the sky subtraction method [ss_method] must be specified as one of:
+
+1.      none
+2.      median
+ 
+Where the sky aperture, [sky_window_half_aperture_px], is defined in the same way as 
+[target_half_aperture_px]. 
+
+The output is stored in the [output_file] file.
+
+Example: 
+
+loextract input_tr_cor_reb.fits simple median 4 15 output.fits
+
+###################################################################################################

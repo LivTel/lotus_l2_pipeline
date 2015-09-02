@@ -1,0 +1,45 @@
+####################################### lotus_red_arcfit ##########################################
+
+Usage:  loarcfit arc_file
+                 min_dist
+                 half_aperture_num_pix
+                 derivative_tol
+                 derivative_tol_ref_px
+                 arc_line_list_filename
+                 max_pix_diff
+                 min_matched_lines
+                 max_av_wavelength_diff
+                 fit_order
+Synopsis:
+
+An automatic arc-line fitting routine.
+
+Description:
+
+Candidate arc lines are identified in the [arc_file] file by:
+
+1.      Collapsing the frame along the spatial axis and finding peaks with the find_peaks function. 
+        The [min_dist], [half_aperture_num_pix], [derivative_tol] and [derivative_tol_ref_px] 
+        parameters have their usual meanings as stated in the spfind blurb.
+
+2.      Checking the average pixel channel of the contiguous lines against the reference arc line
+        list to identify matches. The maximum wavelength distance (in pixels) allowed for a peak to
+        be associated with that from the reference arc line list is [max_pix_diff].
+
+The routine will fail if either the number of contiguous lines found is less than 
+[min_matched_lines]. 
+
+A warning will be issued if it thinks the distribution of matched arc lines doesn't sample the 
+wavelength range well, i.e. the average wavelength difference between the lines of the matched
+line list does not lie within [max_av_wavelength_diff] of the average wavelength difference
+between the lines of the reference arc list. It will also issue a warning if the chi squared
+values indicate a suspect fit.
+
+If successful, the program will produce a file [LOARCFIT_OUTPUTF_WAVFITS_FILE] containing the
+fit parameters.
+
+Example:
+
+loarcfit arc_ext.fits 4 4 1 1 arc.lis 3 3 100 4      
+
+###################################################################################################

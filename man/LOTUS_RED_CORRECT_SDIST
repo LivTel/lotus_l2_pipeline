@@ -1,0 +1,36 @@
+################################### lotus_red_correct_sdist #######################################
+
+Usage:	locorrect input_file
+                  interpolation_type
+                  conserve_flux
+                  output_file
+
+Synopsis:
+
+Corrects a spectrum for s-distortion using the [LOTRACE_OUTPUTF_TRACES_FILE] output file 
+produced by sptrace.
+
+Description:
+
+Rebins each column of the frame in the input file such that the peak of the trace derived
+from the [LOTRACE_OUTPUTF_TRACES_FILE] lies on the same pixel (in y) for all points along the 
+dispersion axis. This pixel is defined as c0, and is set to be the constant term from the tracing 
+polynomial. 
+
+[interpolation_type] can be any of the below (as specified in the GSL library):
+
+1.      linear - "linear"
+2.      polynomial - "polynomial"
+3.      cubic spline - "cspline"
+4.      cubic spline periodic - "cspline_periodic"
+5.      akima - "akima" 
+6.      akima periodic - "akima_periodic"
+
+If the [conserve_flux] flag is set to 1, the flux for each column will be conserved through the
+rebin process. 
+
+Example: 
+
+locorrect input_tr.fits linear 1 out.fits
+
+###################################################################################################

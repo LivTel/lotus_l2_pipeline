@@ -1,0 +1,47 @@
+####################################### lotus_red_find ############################################
+
+Usage:	lofind input_file
+	       bin_size_px
+	       bg_percentile
+	       clip_sigma
+	       median_filter_width_px	
+	       min_SNR
+	       min_spatial_width_px
+	       finding_window_lo_px
+	       finding_window_hi_px
+	       max_centering_num_px	
+	       centroid_half_window_size_px
+	       min_used_bins
+
+Synopsis:
+
+An automatic peak finding and centroiding routine for long-slit spectra.
+
+Description:
+
+The data is first binned along the dispersion axis (defined as x) with a bin size of [bin_size]. 
+For each bin, an initial estimate of the mean/sd is found using the [bg_percentile]th lowest
+valued pixels. This mean/sd is then used in an iterative sigma clip with sigma [clip_sigma] to
+filter out target flux and obtain a truer background mean/sd.
+
+The derivatives for each bin are found, and a median filter of width [median_filter_width_px] 
+pixels applied to smooth any erroneous data (e.g. cosmic rays, bad pixels). Bins containing 
+target flux are then identified by searching for data values which are greater than the product 
+of the background sigma and [min_SNR]. If [min_spatial_width_px] values satisfying this criteria 
+exist, then the bin is flagged as usable.
+
+To obtain a better centroid for the peak, the most positive derivative is found between the 
+spatial limits [finding_window_lo_px] and [finding_window_hi_px] and consecutive 
+pixels (up to a maximum of [max_centering_num_px] pixels) are traversed until the turnover point 
+is found i.e. when the sign of the derivative changes. If no such turnover is found, the bin is
+disregarded. This pixel and [centroid_half_window_size_px] pixels either side are then used to
+find the sub-pixel centroid of the peak by applying a second order parabolic fit.
+ 
+Finally, the program will error if the number of usable bins is < [min_used_bins]. Output is 
+passed to the [LOFIND_OUTPUTF_PEAKS_FILE] file.
+
+Example: 
+
+lofind input_tr.fits 50 0.1 3 3 100 4 50 150 7 3 5
+
+###################################################################################################

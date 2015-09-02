@@ -1,0 +1,30 @@
+
+##################################
+# L2_aliases 			 #
+# Last Modified Date:   02/09/15 #
+##################################
+
+################
+# Core aliases #
+################
+
+alias loclip $L2_BIN_DIR/loclip
+alias lofind $L2_BIN_DIR/lofind
+alias lotrace $L2_BIN_DIR/lotrace
+alias locorrect $L2_BIN_DIR/locorrect
+alias loarcfit $L2_BIN_DIR/loarcfit
+alias lorebin $L2_BIN_DIR/lorebin
+alias loextract $L2_BIN_DIR/loextract
+alias loreformat $L2_BIN_DIR/loreformat
+
+##################
+# Script aliases #
+##################
+
+alias l2pp python $L2_SCRIPT_DIR/L2_analyse_plotpeaks.py
+alias l2pi python $L2_SCRIPT_DIR/L2_analyse_plotimage.py
+alias l2ps python $L2_SCRIPT_DIR/L2_analyse_plotspec.py
+alias l2exec python $L2_SCRIPT_DIR/L2_exec.py
+
+
+

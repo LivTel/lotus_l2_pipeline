@@ -1,0 +1,32 @@
+###################################### lotus_red_reformat #########################################
+
+Usage:  loreformat input_file
+                   headers_file
+                   operation
+                   output_file
+
+Synopsis:
+
+A routine to reformat data produced using the pipeline into the correct output products.
+
+Description:
+
+The input file [input_file] is taken and an operation, specified by the [operation] parameter
+is performed on it to produce an output frame. This frame is either appended to the output file 
+[output_file] (if it already exists), or a new output file is created with the frame used as the 
+primary HDU.
+
+Operations take the form of:
+
+1.      "L1_IMAGE"      (COPY)
+2.      "LSS_NONSS"     (COPY)
+3.      "SPEC_NONSS"    (SPECTRUM)
+4.      "SPEC_SS"       (SPECTRUM)
+
+If the input file doesn't exist, then a (BLANK) HDU is created.
+
+Example: 
+ 
+loreformat input_ext_cc_cor_reb.fits L1_input.fits L1_IMAGE L2_output.fits
+
+###################################################################################################

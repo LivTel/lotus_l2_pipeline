@@ -1,0 +1,22 @@
+#################################### lotus_red_trace_sdist ########################################
+
+Usage:	lotrace polynomial_order
+
+Synopsis:
+
+Produces a polyfitted trace of s-distortion using the [LOFIND_OUTPUTF_PEAKS_FILE] output file 
+produced by spfind.
+
+Description:
+
+Data from the [LOFIND_OUTPUTF_PEAKS_FILE] is fit with a polynomial of order [polynomial_order] and   
+a least-squares fitting routine applied to calculate the fit. The fit coefficients are then 
+outputted to [LOTRACE_OUTPUTF_TRACE_FILE].
+
+A warning will be issued if the min/max chi squared values indicate a suspect fit.
+
+Example: 
+
+lotrace 2
+
+###################################################################################################
