@@ -887,9 +887,9 @@ if __name__ == "__main__":
     
     parser = OptionParser()
 
-    parser.add_option('--t', dest='f_target', action='store', default=L2_TEST_DIR + "/1H0323/v_e_20141115_14_1_0_1.fits", help="path to target file")
-    parser.add_option('--r', dest='f_ref', action='store', default=L2_TEST_DIR + "/1H0323/v_e_20141115_14_1_0_1.fits", help="path to reference file")
-    parser.add_option('--c', dest='f_cont', action='store', default=L2_TEST_DIR + "/1H0323/v_w_20141121_2_1_0_1.fits", help="path to continuum file")
+    parser.add_option('--t', dest='f_target', action='store', default=L2_TEST_DIR + "/67P.fits", help="path to target file")
+    parser.add_option('--r', dest='f_ref', action='store', default=L2_TEST_DIR + "/ref.fits", help="path to reference file")
+    parser.add_option('--c', dest='f_cont', action='store', default=L2_TEST_DIR + "/67P.fits", help="path to continuum file")
     parser.add_option('--dir', dest='work_dir', action='store', default="test", help="path to working dir")
     parser.add_option('--rc', dest='ref_chk', action='store_true', help="perform reference frame check only")
     parser.add_option('--o', dest='clobber', action='store_true')

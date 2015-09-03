@@ -9,10 +9,10 @@
 # User defined environment #
 ############################
 
-setenv L2_BASE_DIR "/home/rmb/devel/LOTUS/lotus_l2_pipeline"					# rmb/desktop
+#setenv L2_BASE_DIR "/home/rmb/devel/LOTUS/lotus_l2_pipeline"					# rmb/desktop
 #setenv L2_BASE_DIR "/space/home/eng/rmb/lotus_l2_pipeline"                                     # eng/ltdevsrv
 #setenv L2_BASE_DIR "/home/rmb/tmp/lotus_l2_pipeline"						# rmb/laptop
-#setenv L2_BASE_DIR "/usr/local/bin/lotus_l2_pipeline"						# eng/lt-qc
+setenv L2_BASE_DIR "/usr/local/bin/lotus_l2_pipeline"						# eng/lt-qc
 
 setenv LD_LIBRARY_PATH /usr/lib:/usr/lib64:/usr/lib/gsl						# all
 
