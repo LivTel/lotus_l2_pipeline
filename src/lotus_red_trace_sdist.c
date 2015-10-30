@@ -1,10 +1,3 @@
-/************************************************************************
-
- File:				lotus_red_trace_sdist.c
- Last Modified Date:     	02/09/15
-
-************************************************************************/
-
 #include <string.h>
 #include <stdio.h>
 #include "fitsio.h"
@@ -17,8 +10,6 @@
 #include "lotus_red_trace_sdist.h"
 #include "lotus_red_find.h"
 #include "gsl_poly.h"
-
-// *********************************************************************
 
 int main(int argc, char *argv []) {
 	if(populate_env_variable(REF_ERROR_CODES_FILE, "L2_ERROR_CODES_FILE")) {

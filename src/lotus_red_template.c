@@ -1,10 +1,3 @@
-/************************************************************************
-
- File:				lotus_red_!TODO.c
- Last Modified Date:     	02/09/15
-
-************************************************************************/
-
 #include <string.h>
 #include <stdio.h>
 #include "fitsio.h"
@@ -15,8 +8,6 @@
 #include "lotus_functions.h"
 #include "lotus_config.h"
 #include "lotus_red_"/*!TODO*/".h"
-
-// *********************************************************************
 
 int main(int argc, char *argv []) {
 

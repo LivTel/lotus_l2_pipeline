@@ -1,10 +1,3 @@
-/************************************************************************
-
- File:				lotus_red_find.c
- Last Modified Date:     	02/09/15
-
-************************************************************************/
-
 #include <string.h>
 #include <stdio.h>
 #include "fitsio.h"
@@ -19,8 +12,6 @@
 #include <gsl/gsl_sort_double.h>
 #include <gsl/gsl_statistics_double.h>
 
-// *********************************************************************
-
 int main(int argc, char *argv []) {
 
 	if(populate_env_variable(REF_ERROR_CODES_FILE, "L2_ERROR_CODES_FILE")) {
@@ -29,7 +20,7 @@ int main(int argc, char *argv []) {
 
 	}
 
-	if (argc != 13) {
+	if (argc != 15) {
 
 		if(populate_env_variable(LOF_BLURB_FILE, "L2_LOF_BLURB_FILE")) {
 
@@ -61,6 +52,8 @@ int main(int argc, char *argv []) {
 		int max_centering_num_px		= strtol(argv[10], NULL, 0);		
 		int centroid_half_window_size_px	= strtol(argv[11], NULL, 0);
 		int min_used_bins			= strtol(argv[12], NULL, 0);
+		int window_x_lo				= strtol(argv[13], NULL, 0);
+		int window_x_hi				= strtol(argv[14], NULL, 0);
 		
 		// ***********************************************************************
 		// Open target file (ARG 1), get parameters and perform any data format 
@@ -112,7 +105,7 @@ int main(int argc, char *argv []) {
 		// ***********************************************************************
 		// Set the range limits
 
-		int cut_x [2] = {1, target_f_naxes[0]};
+		int cut_x [2] = {window_x_lo, window_x_hi};
 		int cut_y [2] = {1, target_f_naxes[1]};
 
 		// ***********************************************************************
@@ -390,7 +383,7 @@ int main(int argc, char *argv []) {
 			if (peaks[ii] == -1)
 				continue;
 			
-			fprintf(outputfile, "%f\t%f\n", ii*bin_size_px + (double)bin_size_px/2., peaks[ii]);
+			fprintf(outputfile, "%f\t%f\n", cut_x[0]+(ii*bin_size_px) + (double)bin_size_px/2., peaks[ii]);
 		}
 		
 		fprintf(outputfile, "%d", EOF);		

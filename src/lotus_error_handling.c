@@ -1,10 +1,3 @@
-/************************************************************************
-
- File:				lotus_error_handling.c
- Last Modified Date:     	02/09/15
-
-************************************************************************/
-
 #include <fcntl.h>
 #include <string.h>
 #include <stdio.h>
@@ -17,10 +10,8 @@
 /************************************************************************
 
  Function:		get_error_description
- Last Modified Date:    26/01/11
  Purpose:		gets an error description from the ERROR_CODES 
 			file given an error value
- Required By:		all
  Additional Notes:	None
 
 ************************************************************************/
@@ -103,9 +94,7 @@ int get_error_description(FILE *REF_ERROR_CODES_FILE, int fits_key_value, char f
 /************************************************************************
 
  Function:		write_error_codes_file_to_header
- Last Modified Date:    11/09/14
  Purpose:		writes an error codes file to the header
- Required By:		lotus_red_reformat.c
  Additional Notes:	None
 
 ************************************************************************/
@@ -154,9 +143,7 @@ int write_error_codes_file_to_header(char ERROR_CODES_FILE [], fitsfile *f_ptr, 
 /************************************************************************
 
  Function:		write_key_to_file
- Last Modified Date:    11/09/14
  Purpose:		writes an error code to file
- Required By:		all
  Additional Notes:	None
 
 ************************************************************************/

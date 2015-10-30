@@ -1,13 +1,6 @@
-/************************************************************************
-
- File:				lotus_red_trace_sdist.h
- Last Modified Date:     	02/09/15
-
-************************************************************************/
-
 char LOTS_BLURB_FILE [200];
 
-int LOTRACE_VAR_POLYORDER_LO			= 2;
+int LOTRACE_VAR_POLYORDER_LO			= 1;
 int LOTRACE_VAR_POLYORDER_HI			= 10;
 
 char LOTRACE_VAR_ACCURACY_COEFFS [10]		= "%.10e";

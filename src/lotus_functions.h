@@ -1,10 +1,3 @@
-/************************************************************************
-
- File:				lotus_functions.h
- Last Modified Date:     	02/09/15
-
-************************************************************************/
-
 #include <stdbool.h>
 
 int calc_least_sq_fit (int, int, double [], double [], double [], double *);

@@ -12,6 +12,8 @@ Usage:	lofind input_file
 	       max_centering_num_px	
 	       centroid_half_window_size_px
 	       min_used_bins
+	       window_x_lo
+	       window_x_hi
 
 Synopsis:
 
@@ -19,10 +21,11 @@ An automatic peak finding and centroiding routine for long-slit spectra.
 
 Description:
 
-The data is first binned along the dispersion axis (defined as x) with a bin size of [bin_size]. 
-For each bin, an initial estimate of the mean/sd is found using the [bg_percentile]th lowest
-valued pixels. This mean/sd is then used in an iterative sigma clip with sigma [clip_sigma] to
-filter out target flux and obtain a truer background mean/sd.
+The data is first binned along the dispersion axis (defined as x) with a bin size of [bin_size]
+between the INTEGER limits [window_x_lo] and [window_x_hi]. For each bin, an initial estimate of 
+the mean/sd is found using the [bg_percentile]th lowest valued pixels. This mean/sd is then used 
+in an iterative sigma clip with sigma [clip_sigma] to filter out target flux and obtain a truer 
+background mean/sd.
 
 The derivatives for each bin are found, and a median filter of width [median_filter_width_px] 
 pixels applied to smooth any erroneous data (e.g. cosmic rays, bad pixels). Bins containing 
@@ -42,6 +45,6 @@ passed to the [LOFIND_OUTPUTF_PEAKS_FILE] file.
 
 Example: 
 
-lofind input_tr.fits 50 0.1 3 3 100 4 50 150 7 3 5
+lofind input_tr.fits 50 0.1 3 3 100 4 50 150 7 3 5 400 900
 
 ###################################################################################################

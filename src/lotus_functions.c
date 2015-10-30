@@ -1,10 +1,3 @@
-/************************************************************************
-
- File:				lotus_functions.c
- Last Modified Date:     	02/09/15
-
-************************************************************************/
-
 #include <string.h>
 #include <stdio.h>
 #include "fitsio.h"
@@ -21,14 +14,13 @@
 #include <gsl/gsl_spline.h>
 #include <gsl/gsl_interp.h>
 #include <gsl/gsl_math.h>
+#include <gsl/gsl_errno.h>
 #include <gsl_randist.h>
 
 /************************************************************************
 
  Function:		find_edges
- Last Modified Date:    11/09/14	
  Purpose:		finds the edges in a dataset
- Required By:		lotus_red_findedges.c
  Additional Notes:	
 
 
@@ -88,13 +80,11 @@ int find_edges(int nxelements, double row_values [], int peaks [], int * num_pea
 /************************************************************************
 
  Function:		calc_least_sq_fit
- Last Modified Date:    11/09/14
  Purpose:		finds the coefficients of the [order] fit, for
 			[equations], whose values are defined in [array_x]
 			and [array_y]. stores in [coeff] where coeff[0] 
 			is the 0th order of fit with a corresponding 
 			[chi_squared]
- Required By:		lotus_red_arcfit.c
  Additional Notes:
 
 
@@ -184,10 +174,8 @@ int calc_least_sq_fit(int order, int equations, double array_x [], double array_
 /************************************************************************
 
  Function:		calculate_cross_correlation_offset
- Last Modified Date:    11/09/14
  Purpose:		calculates the best offset for two given
 			datasets, x and y
- Required By:		lotus_red_arcfit.c
  Additional Notes:	
 
  The cross correlation coefficient, r, is determined by the equation:
@@ -265,13 +253,7 @@ int calculate_cross_correlation_offset(double x [], double y [], int n, int max_
 /************************************************************************
 
  Function:		check_file_exists
- Last Modified Date:    11/09/14
  Purpose:		checks a file to see if it exists
- Required By:		lotus_red_trace.c
-			lotus_red_extract_simple.c
-			lotus_red_arcfit.c
-			lotus_red_rebin.c
-			lotus_red_reformat.c
  Additional Notes:	None
 
 ************************************************************************/
@@ -296,11 +278,9 @@ int check_file_exists(char filename []) {
 /************************************************************************
 
  Function:		check_key_to_omit
- Last Modified Date:    11/09/14
  Purpose:		checks the [FITS_KEYS_TO_OMIT] file for the 
 			existence of [card] in hdu number [hdunum]
 			and assigns [found_key] to TRUE if found
- Required By:		lotus_red_reformat.c
  Additional Notes:	None
 
 ************************************************************************/
@@ -353,10 +333,8 @@ int check_key_to_omit(char * FITS_KEYS_TO_OMIT, char * card, char * operation, i
 /************************************************************************
 
  Function:		find_centroid_parabolic	
- Last Modified Date:    11/09/14
  Purpose:		finds the parabolic centroid of each peak in a
 			dataset given the position of the peaks
- Required By:		lotus_red_arcfit.c
  Additional Notes:	
 
 
@@ -415,9 +393,7 @@ int find_centroid_parabolic(double row_values [], int peaks [], int num_peaks, d
 /************************************************************************
 
  Function:		find_peaks
- Last Modified Date:    11/09/14	
  Purpose:		finds the peaks in a dataset
- Required By:		lotus_red_arcfit.c
  Additional Notes:	
 
 
@@ -476,9 +452,7 @@ int find_peaks(int nxelements, double row_values [], int peaks [], int * num_pea
 /************************************************************************
 
  Function:		find_peaks_contiguous
- Last Modified Date:    11/09/14	
  Purpose:		finds contiguous peaks in a dataset
- Required By:		lotus_red_arcfit.c
  Additional Notes:	None
 
 ************************************************************************/
@@ -589,11 +563,7 @@ int find_peaks_contiguous(int nxelements, int nyelements, double ** frame_values
 /************************************************************************
 
  Function:		find_time
- Last Modified Date:    11/09/14
  Purpose:		finds the time
- Required By:		lotus_red_trace.c
-			lotus_red_arcfit.c
-			lotus_red_rebin.c
  Additional Notes:	None
 
 ************************************************************************/
@@ -616,9 +586,7 @@ int find_time (char timestr []) {
 /************************************************************************
 
  Function:		flip_array_dbl
- Last Modified Date:    11/09/14	
  Purpose:		Flips an array
- Required By:		lotus_red_extract.c
  Additional Notes:	None
 
 ************************************************************************/
@@ -651,11 +619,9 @@ int flip_array_dbl(double array [], int size) {
 /************************************************************************
 
  Function:		interpolate
- Last Modified Date:    11/09/14	
  Purpose:		interpolates a dataset [x] to find all values
 			between [interpolation_start] and 
 			[interpolation_end] with a spacing of [spacing]
- Required By:		lotus_red_rebin.c
  Additional Notes:	
 
 
@@ -665,7 +631,7 @@ int flip_array_dbl(double array [], int size) {
 ************************************************************************/
 
 int interpolate(char interpolation_type [], double x_wav [], double x_val [], int nxelements, double interpolation_start, double interpolation_end, double spacing, double x_val_out []) {
-
+ 
 	gsl_spline *spline;
 
 	if (strcmp(interpolation_type, "linear") == 0) {
@@ -698,6 +664,8 @@ int interpolate(char interpolation_type [], double x_wav [], double x_val [], in
 
 	}
 
+
+
 	gsl_interp_accel *acc = gsl_interp_accel_alloc();
 		     
 	gsl_spline_init(spline, x_wav, x_val, nxelements);
@@ -706,15 +674,13 @@ int interpolate(char interpolation_type [], double x_wav [], double x_val [], in
 
 	double xi;
 
-	for (xi = interpolation_start; gsl_fcmp(xi, interpolation_end+spacing, 1e-5); xi += spacing) {	// checking to see if xi is equal to interpolation_end+spacing (i.e. no more iterations)
-
+	for (xi = interpolation_start; gsl_fcmp(xi, interpolation_end+spacing, 1e-5); xi += spacing) {	// checking to see if xi is equal to interpolation_end+spacing (i.e. no more iterations)	
+		//printf("\n%f\t%f\t%g\t%d", xi, interpolation_end+spacing, x_val_out[this_interpolation_index], gsl_fcmp(xi, interpolation_end+spacing, 1e-5));	// DEBUG
 		x_val_out[this_interpolation_index] = gsl_spline_eval(spline, xi, acc);
-		//printf("\n%f\t%g", xi, x_val_out[this_interpolation_index]);	// DEBUG
 
 		this_interpolation_index++;
-
 	}
-
+		
 	gsl_spline_free(spline);
 	gsl_interp_accel_free(acc);
 
@@ -725,10 +691,8 @@ int interpolate(char interpolation_type [], double x_wav [], double x_val [], in
 /************************************************************************
 
  Function:		iterative_sigma_clip
- Last Modified Date:    18/09/14	
  Purpose:		Perform iterative sigma clipping on a dataset of 
 			n values
- Required By:		lotus_red_find
  Additional Notes:	
 
  Before each iteration, a ceiling value is worked out which is found by:
@@ -878,10 +842,8 @@ int iterative_sigma_clip(double values [], int n, float clip_sigma, int retain_i
 /************************************************************************
 
  Function:		lsearch_int
- Last Modified Date:    11/09/14	
  Purpose:		Performs a search for value [key] in int [array]
 			of size [size]
- Required By:		lotus_red_arcfit.c
  Additional Notes:	None
 
 ************************************************************************/
@@ -907,9 +869,7 @@ int lsearch_int(int array [], int key, int size) {
 /************************************************************************
 
  Function:		median_filter
- Last Modified Date:    11/09/14	
  Purpose:		Applies a median filter to a dataset
- Required By:		lotus_red_reformat.c
  Additional Notes:	
 
  This algorithm applies no padding to the start/end of the array.
@@ -949,10 +909,8 @@ int median_filter(double row_values [], double smoothed_row_values [], int nxele
 /************************************************************************
 
  Function:		populate_env_variable
- Last Modified Date:    11/09/14	
  Purpose:		populates global variables with corresponding
 			environment variables from the shell
- Required By:		all
  Additional Notes:	None
 
 ************************************************************************/
@@ -976,14 +934,8 @@ int populate_env_variable(char var_to_populate [], char env_var_name []) {
 /************************************************************************
 
  Function:		populate_img_parameters
- Last Modified Date:    11/09/14	
  Purpose:		populates variables with corresponding parameters
 			and prints to stdout
- Required By:		lotus_red_extract_simple.c
-			lotus_red_arcfit.c
-			lotus_red_rebin.c
-			lotus_red_subsky.c
-			lotus_red_reformat.c
  Additional Notes:	None
 
 ************************************************************************/
@@ -1015,9 +967,7 @@ int populate_img_parameters(char f [], fitsfile *f_ptr, int maxdim, int *bitpix,
 /************************************************************************
 
  Function:		print_file
- Last Modified Date:    11/09/14
  Purpose:		prints content of file to screen
- Required By:		all
  Additional Notes:	None
 
 ************************************************************************/
@@ -1055,14 +1005,7 @@ int print_file(char text_file [200]) {
 /************************************************************************
 
  Function:              strdup
- Last Modified Date:    11/09/14
  Purpose:               duplicates a string
- Required By:           lotus_red_extract_simple.c
-			lotus_red_arcfit.c
-			lotus_red_correct_throughput.c
-			lotus_red_rebin.c
-			lotus_red_subsky.c
-			lotus_red_reformat.c
  Additional Notes:      None
 
 ************************************************************************/
@@ -1085,9 +1028,7 @@ char *strdup(const char *str) {
 /************************************************************************
 
  Function:		write_additional_keys_file_to_header
- Last Modified Date:    11/09/14
  Purpose:		writes an additional keys file to a header
- Required By:		lotus_red_reformat.c
  Additional Notes:	None
 
 ************************************************************************/
@@ -1161,9 +1102,7 @@ int write_additional_keys_file_to_header(char ADDITIONAL_KEYS_FILE [], fitsfile 
 /************************************************************************
 
  Function:		write_additional_key_to_file_dbl
- Last Modified Date:    11/09/14
  Purpose:		writes an additional key to file (double)
- Required By:		lotus_red_rebin.c
  Additional Notes:	None
 
 ************************************************************************/
@@ -1192,9 +1131,7 @@ int write_additional_key_to_file_dbl(char ADDITIONAL_KEYS_FILE [], char id [], c
 /************************************************************************
 
  Function:		write_additional_key_to_file_str
- Last Modified Date:    11/09/14
  Purpose:		writes an additional key to file (string)
- Required By:		lotus_red_rebin.c
  Additional Notes:	None
 
 ************************************************************************/

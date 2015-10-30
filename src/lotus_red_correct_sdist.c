@@ -1,10 +1,3 @@
-/************************************************************************
-
- File:				lotus_red_correct_sdist.c
- Last Modified Date:     	02/09/15
-
-************************************************************************/
-
 #include <string.h>
 #include <stdio.h>
 #include "fitsio.h"
@@ -17,8 +10,6 @@
 #include "lotus_red_correct_sdist.h"
 #include "lotus_red_trace_sdist.h"
 #include "gsl_poly.h"
-
-// *********************************************************************
 
 int main(int argc, char *argv []) {
 
@@ -265,20 +256,27 @@ int main(int argc, char *argv []) {
 		}	
 		
 		// ***********************************************************************
-		// Determine the maximum offset from c0 (this is needed to avoid 
-		// trying to interpolate past the limits). Use maximum offset as clip
-		// for both sides.
+		// Determine the min and max offsets from c0 (this is needed to avoid 
+		// trying to interpolate past the limits) otherwise throws GSL 
+		// INTERPOLATION ERROR.
 		
 		double c0 = coeffs[0];
-		int max_offset = 0;
+		float min_offset = 0;	// this is how much the curvature extends in -ve y
+		float max_offset = 0;	// this is how much the curvature extends in +ve y
 		for (ii=0; ii<nxelements; ii++) {
-			int this_offset_ceil = abs(ceil(c0 - gsl_poly_eval(coeffs, polynomial_order+1, ii)));
-			if (this_offset_ceil > max_offset)
-				max_offset = this_offset_ceil;
+			float this_offset = gsl_poly_eval(coeffs, polynomial_order+1, ii) - c0;
+			if (this_offset > max_offset) {
+				max_offset = this_offset;
+			}
+			if (this_offset < min_offset) {
+				min_offset = this_offset;
+			}
 		}	
-		
-		int nyelements_reb = nyelements-(2*max_offset);
-		
+
+                int min_offset_int = (int)ceil(fabs(min_offset));
+		int max_offset_int = (int)ceil(fabs(max_offset));
+		int nyelements_reb = nyelements - max_offset_int - min_offset_int;
+
 		// ***********************************************************************
 		// Do the rebinning (conserving flux where applicable)
 
@@ -293,16 +291,17 @@ int main(int argc, char *argv []) {
 		int jj;
 		for (ii=0; ii<nxelements; ii++) {
 			this_pre_rebin_flux = 0.;
-			double this_offset = c0 - gsl_poly_eval(coeffs, polynomial_order+1, ii);
+			double this_offset = gsl_poly_eval(coeffs, polynomial_order+1, ii) - c0;
 			memset(this_column_values, 0, sizeof(double)*nyelements);
-			memset(this_column_values_reb, 0, sizeof(double)*nyelements);			
+			memset(this_column_values_reb, 0, sizeof(double)*nyelements_reb);			
 			for (jj=0; jj<nyelements; jj++) {
 				this_column_values[jj] = input_frame_values[jj][ii];
-				x_offsetted[jj] = jj + this_offset;
+				x_offsetted[jj] = jj - this_offset;
 				this_pre_rebin_flux += input_frame_values[jj][ii];
 			}
 
-			interpolate(interpolation_type, x_offsetted, this_column_values, nyelements, max_offset, nyelements-max_offset, 1, this_column_values_reb);
+
+			interpolate(interpolation_type, x_offsetted, this_column_values, nyelements, min_offset_int, nyelements_reb-max_offset_int, 1, this_column_values_reb);
 
 			// get post rebin flux
 			this_post_rebin_flux = 0.;

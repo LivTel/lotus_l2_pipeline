@@ -1,10 +1,3 @@
-/************************************************************************
-
- File:				lotus_red_reformat.c
- Last Modified Date:     	02/09/15
-
-************************************************************************/
-
 #include <string.h>
 #include <stdio.h>
 #include "fitsio.h"
@@ -17,8 +10,6 @@
 #include "lotus_config.h"
 #include "lotus_red_reformat.h"
 #include "lotus_red_rebin.h"
-
-// *********************************************************************/
 
 int main (int argc, char *argv []) {
 

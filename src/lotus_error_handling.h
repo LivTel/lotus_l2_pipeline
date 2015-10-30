@@ -1,10 +1,3 @@
-/************************************************************************
-
- File:				lotus_error_handling.h
- Last Modified Date:     	02/09/15
-
-************************************************************************/
-
 int get_error_description(FILE, int, char *, char *, char *);
 int write_error_codes_file_to_header(char [], fitsfile *, int *);
 int write_key_to_file(char *, char *, char *, int, char *, char *);
