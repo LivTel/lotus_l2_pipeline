@@ -651,6 +651,11 @@ def full_run(f_target, f_ref, f_cont, work_dir, clobber):
         
     # rename dat files to avoid conflict
     rename_dat_files("ref_corrected")       
+
+    # RJS start
+    copyfile(target + target_suffix + trim_suffix + ".fits", target + target_suffix + trim_suffix + cor_suffix + ".fits" )
+    # RJS end
+
                 
     # -------------------------------------------------
     # - FIND PIXEL TO WAVELENGTH SOLUTIONS (loarcfit) -

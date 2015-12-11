@@ -14,7 +14,7 @@ def execute(f_in, hdu, f_out, plt_title, save=True, hold=False):
   hdulist = pyfits.open(f_in)
   data = hdulist[hdu].data
   
-  plt.imshow(data, aspect='auto', vmin=np.median(data), vmax=np.percentile(data, 99.5))      
+  plt.imshow(data, aspect='auto', vmin=np.median(data), vmax=np.percentile(data, 99.5), cmap="Greys")      
   plt.xlabel("x")
   plt.ylabel("y")
   

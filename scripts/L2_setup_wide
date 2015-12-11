@@ -1,0 +1,53 @@
+#!/usr/bin/env tcsh
+
+############################
+# User defined environment #
+############################
+
+#setenv L2_BASE_DIR "/home/rmb/devel/LOTUS/lotus_l2_pipeline"					# rmb/desktop
+#setenv L2_BASE_DIR "/space/home/eng/rmb/lotus_l2_pipeline"                                     # eng/ltdevsrv
+#setenv L2_BASE_DIR "/home/rmb/tmp/lotus_l2_pipeline"						# rmb/laptop
+setenv L2_BASE_DIR "/usr/local/bin/lotus_l2_pipeline"						# eng/lt-qc
+
+setenv LD_LIBRARY_PATH /usr/lib:/usr/lib64:/usr/lib/gsl						# these are the default paths for any distribution
+
+#! DO NOT EDIT PAST HERE UNLESS YOU KNOW WHAT YOU'RE DOING
+
+##########################
+# Set up shell variables #
+##########################
+
+setenv L2_BIN_DIR $L2_BASE_DIR/bin
+setenv L2_LIB_DIR $L2_BASE_DIR/lib
+setenv L2_CONFIG_DIR $L2_BASE_DIR/config
+setenv L2_SRC_DIR $L2_BASE_DIR/src
+setenv L2_SCRIPT_DIR $L2_BASE_DIR/scripts
+setenv L2_MAN_DIR $L2_BASE_DIR/man
+setenv L2_TEST_DIR $L2_BASE_DIR/test
+
+setenv L2_REFERENCE_ARCS_DIR $L2_CONFIG_DIR/reference_arcs/wide/
+setenv L2_INI_DIR $L2_CONFIG_DIR/configs/wide/
+setenv L2_LOOKUP_TABLES_DIR $L2_CONFIG_DIR/lookup_tables/wide/
+
+setenv L2_ERROR_CODES_FILE $L2_CONFIG_DIR/ERROR_CODES
+setenv L2_FITS_KEYS_TO_OMIT_FILE $L2_CONFIG_DIR/FITS_KEYS_TO_OMIT
+
+setenv L2_HEADER_FILE $L2_MAN_DIR/HEADER
+setenv L2_LOC_BLURB_FILE $L2_MAN_DIR/LOTUS_RED_CLIP
+setenv L2_LOF_BLURB_FILE $L2_MAN_DIR/LOTUS_RED_FIND
+setenv L2_LOTS_BLURB_FILE $L2_MAN_DIR/LOTUS_RED_TRACE_SDIST
+setenv L2_LOCS_BLURB_FILE $L2_MAN_DIR/LOTUS_RED_CORRECT_SDIST
+setenv L2_LOA_BLURB_FILE $L2_MAN_DIR/LOTUS_RED_ARCFIT
+setenv L2_LOR_BLURB_FILE $L2_MAN_DIR/LOTUS_RED_REBIN
+setenv L2_LOE_BLURB_FILE $L2_MAN_DIR/LOTUS_RED_EXTRACT
+setenv L2_LORF_BLURB_FILE $L2_MAN_DIR/LOTUS_RED_REFORMAT
+
+################
+# Set up shell #
+################
+
+limit stacksize unlimited
+source $L2_SCRIPT_DIR/L2_aliases
+
+exit(0)
+
