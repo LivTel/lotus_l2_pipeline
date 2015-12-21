@@ -574,7 +574,7 @@ def full_run(f_target, f_ref, f_cont, work_dir, clobber):
     if output.returncode != 0:
         err.set_code(23, is_fatal=False)      
     rewrite_error_codes_file(cfg['general']['error_codes_file'], "L2STATCO", "L2STATOT", add_to_desc="(target)")
-    
+
     ## reference
     output = Popen([correct, in_ref_filename, cfg['locorrect']['interpolation_type'], cfg['locorrect']['conserve_flux'], out_ref_filename], stdout=PIPE)
     print output.stdout.read()  
@@ -656,7 +656,6 @@ def full_run(f_target, f_ref, f_cont, work_dir, clobber):
     copyfile(target + target_suffix + trim_suffix + ".fits", target + target_suffix + trim_suffix + cor_suffix + ".fits" )
     # RJS end
 
-                
     # -------------------------------------------------
     # - FIND PIXEL TO WAVELENGTH SOLUTIONS (loarcfit) -
     # -------------------------------------------------

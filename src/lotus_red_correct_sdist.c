@@ -300,7 +300,6 @@ int main(int argc, char *argv []) {
 				this_pre_rebin_flux += input_frame_values[jj][ii];
 			}
 
-
 			interpolate(interpolation_type, x_offsetted, this_column_values, nyelements, min_offset_int, nyelements_reb-max_offset_int, 1, this_column_values_reb);
 
 			// get post rebin flux
@@ -311,7 +310,7 @@ int main(int argc, char *argv []) {
 			
 			// apply conservation factor
 			double conservation_factor = this_pre_rebin_flux/this_post_rebin_flux;
-			//printf("%f\t%f\t%f\n", this_pre_rebin_flux, this_post_rebin_flux, conservation_factor);	// DEBUG
+			//printf("%d\t%f\t%f\t%f\n", ii, this_pre_rebin_flux, this_post_rebin_flux, conservation_factor);	// DEBUG
 			if (conserve_flux == TRUE) {
 				for (jj=0; jj<nyelements_reb; jj++) {
 					reb_values[jj][ii] = this_column_values_reb[jj] * conservation_factor;
@@ -320,7 +319,7 @@ int main(int argc, char *argv []) {
 				for (jj=0; jj<nyelements_reb; jj++) {				
 					reb_values[jj][ii] = this_column_values_reb[jj];					
 				}
-			}	
+			}
 		}
 		
 		// ***********************************************************************
