@@ -293,10 +293,8 @@ int main(int argc, char *argv []) {
 			if (found_turnover) {
 				printf("Yes\n");
 				printf("End peak index:\t\t\t%d\n", this_pk_idx);	
-                                num_bins_used++;
 			} else {
 				printf("No\n");
-				peaks[ii] = -1;
 				continue;
 			}
 
@@ -330,6 +328,17 @@ int main(int argc, char *argv []) {
 			
 			double fitted_peak_idx = -coeffs[1]/(2*coeffs[2]);
 			printf("Fitted peak index:\t\t%f\n", fitted_peak_idx);
+
+			// 8.	Ensure fitted peak location is within finding window
+			printf("Is fitted peak within window?\t");
+			if (fitted_peak_idx > finding_window_lo_px && fitted_peak_idx < finding_window_hi_px) {
+				printf("Yes\n");
+                                num_bins_used++;
+			} else {
+				printf("No\n");
+				peaks[ii] = -1;
+				continue;
+			}
 
 			peaks[ii] = fitted_peak_idx;	
 			
