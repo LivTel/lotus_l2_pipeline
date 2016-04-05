@@ -59,6 +59,8 @@ target/
 *~
 
 bin/
+test/
+lib/
 
 
 
