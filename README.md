@@ -26,7 +26,7 @@ n.b. for LT operations, `L2_BASE_DIR`, `LIBS` and `INCLUDES` should already have
 
 # Configuration Files
 
-Configuration file lookup tables are kept in `config/lookup_tables`. This file provides a record of: config file location (relative to `config/configs`), binning mode, date active from, time active from, date active to and time active to. The last two fields can be replaced by a single value, "now", signifying that the file can be used up to the current date/time, e.g.
+Configuration file lookup tables (`config.tab`) are kept in `config/lookup_tables`. The file provides a record of: config file location (relative to `config/configs`), binning mode, date active from, time active from, date active to and time active to. The last two fields can be replaced by a single value, "now", signifying that the file can be used up to the current date/time, e.g.
 
 `010715/config_4x4.ini	4x4	01/07/15	12:00:00	now`
 
